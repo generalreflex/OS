@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+int main()
+{
+    int bursttime[20],arrivaltime[10],processes,temp,st[10],ft[10],wt[10],ta[10];
+    int totwt=0,totta=0;
+    float awt,ata;
+    
+    
+    printf("Enter the number of process: ");
+    scanf("%d",&processes);
+    for(int i=0; i<processes; i++)
+    {
+        printf("Enter process name, arrival time and execution time: ");
+        
+        scanf("%d%d",&arrivaltime[i],&bursttime[i]);
+    }
+    for(int i=0; i<processes; i++)
+        for(int j=0; j<processes; j++)
+        {
+            if(bursttime[i]<bursttime[j])
+            {
+                temp=arrivaltime[i];
+                arrivaltime[i]=arrivaltime[j];
+                arrivaltime[j]=temp;
+
+                temp=bursttime[i];
+                bursttime[i]=bursttime[j];
+                bursttime[j]=temp;
+
+                
+            }
+        }
+    for(int i=0; i<processes; i++)
+    {
+        if(i==0)
+            st[i]=arrivaltime[i];
+        else
+            st[i]=ft[i-1];
+        wt[i]=st[i]-arrivaltime[i];
+        ft[i]=st[i]+bursttime[i];
+        ta[i]=ft[i]-arrivaltime[i];
+        totwt+=wt[i];
+        totta+=ta[i];
+    }
+    awt=(float)totwt/processes;
+    ata=(float)totta/processes;
+    printf("\narrivaltime\tbursttime\twaitingtime\ttatime");
+    for(int i=0; i<processes; i++)
+        printf("\n%5d\t\t%5d\t\t%5d\t\t%5d",arrivaltime[i],bursttime[i],wt[i],ta[i]);
+    printf("\nAverage waiting time is: %f",awt);
+    printf("\nAverage turnaroundtime is: %f",ata);
+    
+}
